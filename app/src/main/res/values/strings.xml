@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">PPBContact</string>
+    <string name="action_settings">Settings</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="nama">Nama</string>
+    <string name="hint_nama">Avei Liiara</string>
+    <string name="simpan">Simpan</string>
+    <string name="nomor_telp">Nomor Telepon</string>
+    <string name="hint_nomor_telp">081xxxxxxxxx</string>
+    <string name="title_activity_detail_contact">DetailContact</string>
+    <string name="edit_contact">Edit Contact</string>
+    <string name="back">Kembali</string>
+    <string name="delete">Hapus</string>
+</resources>
