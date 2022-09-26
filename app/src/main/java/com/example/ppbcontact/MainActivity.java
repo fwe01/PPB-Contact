@@ -23,9 +23,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ContactRepository contactRepository;
 
-    private Button btn_simpan;
+    private Button btn_simpan, btn_cari;
     private TextView alert_success, alert_danger;
-    private EditText edt_nama, edt_nomor_telp;
+    private EditText edt_nama, edt_nomor_telp, edt_cari_kontak;
     private LinearLayout scroll_contact_linear;
 
     private void saveContact(View v) {
@@ -35,9 +35,16 @@ public class MainActivity extends AppCompatActivity {
         contactRepository.insert(Contact.create(nama, nomor_telp));
     }
 
-    private void updateList() {
+    private ArrayList<Contact> searchContact(String nama) {
+        return contactRepository.searchByName(nama);
+    }
+
+    private ArrayList<Contact> getAll() {
+        return contactRepository.getAll();
+    }
+
+    private void updateList(ArrayList<Contact> contacts) {
         scroll_contact_linear.removeAllViews();
-        ArrayList<Contact> contacts = contactRepository.getAll();
 
         for (Contact contact : contacts) {
             LinearLayout contact_item = new LinearLayout(this);
@@ -69,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
         edt_nama = findViewById(R.id.edt_nama);
         edt_nomor_telp = findViewById(R.id.edt_nomor_telp);
+        edt_cari_kontak = findViewById(R.id.edt_cari_kontak);
 
         scroll_contact_linear = findViewById(R.id.scroll_contact_linear);
 
@@ -97,18 +106,30 @@ public class MainActivity extends AppCompatActivity {
                 alert_danger.setText("Gagal menyimpan kontak");
                 alert_danger.setVisibility(View.VISIBLE);
             } finally {
-                updateList();
+                updateList(getAll());
+            }
+        });
+
+        btn_cari = findViewById(R.id.btn_cari_kontak);
+        btn_cari.setOnClickListener(view -> {
+            alert_danger.setVisibility(View.GONE);
+            try {
+                updateList(searchContact(edt_cari_kontak.getText().toString()));
+            } catch (Exception e) {
+                alert_danger.setText("Gagal menyimpan kontak");
+                alert_danger.setVisibility(View.VISIBLE);
             }
         });
 
         //isi list untuk pertama kalinya
-        updateList();
+        updateList(getAll());
     }
+
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateList();
+        updateList(getAll());
     }
 
     @Override

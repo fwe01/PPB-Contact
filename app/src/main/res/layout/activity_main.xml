@@ -75,6 +75,31 @@
         android:layout_marginBottom="8dp"
         android:text="@string/simpan" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/edt_cari_kontak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_weight="15"
+            android:hint="@string/hint_nomor_telp"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btn_cari_kontak"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
+            android:text="@string/cari_kontak" />
+
+    </LinearLayout>
+
     <ScrollView
         android:id="@+id/scroll_contact"
         android:layout_width="fill_parent"

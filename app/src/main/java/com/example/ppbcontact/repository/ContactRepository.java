@@ -76,6 +76,22 @@ public class ContactRepository {
         return null;
     }
 
+    public ArrayList<Contact> searchByName(String name) {
+        Cursor cursor = database.rawQuery("SELECT * FROM contact where nama like '%" + name + "%' order by nama", null);
+
+        ArrayList<Contact> result = new ArrayList<>();
+
+        if (cursor.moveToFirst()) {
+            do {
+                // on below line we are adding the data from cursor to our array list.
+                result.add(new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2)));
+            } while (cursor.moveToNext());
+            // moving our cursor to next.
+        }
+
+        return result;
+    }
+
     public ArrayList<Contact> getAll() {
         Cursor cursor = database.rawQuery("SELECT * FROM contact order by nama", null);
 
