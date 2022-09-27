@@ -68,11 +68,12 @@
         android:hint="@string/hint_nomor_telp"
         android:inputType="text" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_simpan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="@color/success"
         android:text="@string/simpan" />
 
     <LinearLayout
@@ -85,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_weight="1"
-            android:text="@string/back"/>
+            android:text="@string/back" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_hapus"
@@ -93,8 +94,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:layout_weight="1"
-            android:text="@string/delete"
-            android:backgroundTint="@color/red"/>
+            android:backgroundTint="@color/red"
+            android:text="@string/delete" />
     </LinearLayout>
 
 </LinearLayout>
