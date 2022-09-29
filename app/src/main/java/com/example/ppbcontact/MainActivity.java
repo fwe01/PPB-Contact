@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             try {
                 updateList(searchContact(edt_cari_kontak.getText().toString()));
             } catch (Exception e) {
-                alert_danger.setText("Gagal menyimpan kontak");
+                alert_danger.setText("Gagal mencari kontak");
                 alert_danger.setVisibility(View.VISIBLE);
             }
         });
