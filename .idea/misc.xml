@@ -3,9 +3,13 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPB-Contact/app/src/main/res/drawable/contact_item_background.xml" value="0.1185" />
         <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPB-Contact/app/src/main/res/layout/activity_detail_contact.xml" value="0.22826086956521738" />
         <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPB-Contact/app/src/main/res/layout/activity_main.xml" value="0.25815217391304346" />
+        <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPB-Contact/app/src/main/res/layout/add_contact_dialog.xml" value="0.25815217391304346" />
+        <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPB-Contact/app/src/main/res/layout/contact_list.xml" value="0.12613981762917933" />
         <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPB-Contact/app/src/main/res/layout/contact_list_item.xml" value="0.25815217391304346" />
+        <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPB-Contact/app/src/main/res/layout/main_content.xml" value="0.25815217391304346" />
         <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPBContact/app/src/main/res/drawable/contact_item_background.xml" value="0.315" />
         <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPBContact/app/src/main/res/layout/activity_detail_contact.xml" value="0.33" />
         <entry key="..\:/PERSONAL_FILE_DAT/EXinsTINCT (not auto)/Programming Project/PPB/PPBContact/app/src/main/res/layout/activity_main.xml" value="0.5101694915254237" />

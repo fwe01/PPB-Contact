@@ -1,14 +1,19 @@
 package com.example.ppbcontact;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.ppbcontact.adapter.ContactAdapter;
+import com.example.ppbcontact.databinding.ActivityMainBinding;
 import com.example.ppbcontact.model.Contact;
 import com.example.ppbcontact.repository.ContactRepository;
+import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.LayoutInflater;
 import android.view.View;
 
 import android.view.Menu;
@@ -26,14 +31,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ContactRepository contactRepository;
 
-    private Button btn_simpan, btn_cari;
     private TextView alert_success, alert_danger;
-    private EditText edt_nama, edt_nomor_telp, edt_cari_kontak;
 
-    private void saveContact(View v) {
-        String nama = edt_nama.getText().toString();
-        String nomor_telp = edt_nomor_telp.getText().toString();
-
+    private void saveContact(String nama, String nomor_telp) {
         contactRepository.insert(Contact.create(nama, nomor_telp));
     }
 
@@ -57,34 +57,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         contactRepository = ContactRepository.getInstance(this.getApplicationContext());
 
         alert_success = findViewById(R.id.txt_success);
         alert_danger = findViewById(R.id.txt_danger);
 
-        edt_nama = findViewById(R.id.edt_nama);
-        edt_nomor_telp = findViewById(R.id.edt_nomor_telp);
-        edt_cari_kontak = findViewById(R.id.edt_cari_kontak);
+        EditText edt_cari_kontak = findViewById(R.id.edt_cari_kontak);
 
-        btn_simpan = findViewById(R.id.btn_simpan);
-        btn_simpan.setOnClickListener(view -> {
-            alert_success.setVisibility(View.GONE);
-            alert_danger.setVisibility(View.GONE);
-            try {
-                saveContact(view);
-                alert_success.setText("Kontak berhasil disimpan");
-                alert_success.setVisibility(View.VISIBLE);
-            } catch (Exception e) {
-                alert_danger.setText("Gagal menyimpan kontak");
-                alert_danger.setVisibility(View.VISIBLE);
-            } finally {
-                updateList(getAll());
-            }
-        });
-
-        btn_cari = findViewById(R.id.btn_cari_kontak);
+        Button btn_cari = findViewById(R.id.btn_cari_kontak);
         btn_cari.setOnClickListener(view -> {
             alert_danger.setVisibility(View.GONE);
             try {
@@ -95,8 +78,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        binding.fab.setOnClickListener(view -> showAddDialog());
+
         //isi list untuk pertama kalinya
         updateList(getAll());
+    }
+
+    private void showAddDialog() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View add_contact_dialog_view = inflater.inflate(R.layout.add_contact_dialog, null);
+
+        AlertDialog.Builder add_contact_dialog = new AlertDialog.Builder(this);
+
+        add_contact_dialog.setView(add_contact_dialog_view);
+
+        EditText edt_nama = add_contact_dialog_view.findViewById(R.id.edt_nama);
+        EditText edt_nomor_telp = add_contact_dialog_view.findViewById(R.id.edt_nomor_telp);
+
+        add_contact_dialog
+                .setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        alert_success.setVisibility(View.GONE);
+                        alert_danger.setVisibility(View.GONE);
+                        try {
+                            saveContact(edt_nama.getText().toString(), edt_nomor_telp.getText().toString());
+                            alert_success.setText("Kontak berhasil disimpan");
+                            alert_success.setVisibility(View.VISIBLE);
+                        } catch (Exception e) {
+                            alert_danger.setText("Gagal menyimpan kontak");
+                            alert_danger.setVisibility(View.VISIBLE);
+                        } finally {
+                            updateList(getAll());
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
     }
 
 
