@@ -3,6 +3,7 @@ package com.example.ppbcontact;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.ppbcontact.adapter.ContactAdapter;
 import com.example.ppbcontact.model.Contact;
 import com.example.ppbcontact.repository.ContactRepository;
 
@@ -13,9 +14,11 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_simpan, btn_cari;
     private TextView alert_success, alert_danger;
     private EditText edt_nama, edt_nomor_telp, edt_cari_kontak;
-    private LinearLayout scroll_contact_linear;
 
     private void saveContact(View v) {
         String nama = edt_nama.getText().toString();
@@ -44,36 +46,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateList(ArrayList<Contact> contacts) {
-        scroll_contact_linear.removeAllViews();
+        ContactAdapter contact_adapter = new ContactAdapter(this, R.layout.contact_list_item, contacts);
 
-        for (Contact contact : contacts) {
-            LinearLayout contact_item = new LinearLayout(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 10, 0, 0);
-            contact_item.setLayoutParams(params);
-            contact_item.setOrientation(LinearLayout.VERTICAL);
-            contact_item.setPadding(50, 50, 50, 50);
-            contact_item.setBackgroundResource(R.drawable.contact_item_background);
-
-            TextView contact_item_nama = new TextView(this);
-            contact_item_nama.setText("Nama : " + contact.getNama());
-            contact_item_nama.setTextColor(getResources().getColor(R.color.white));
-
-            TextView contact_item_nomor_telp = new TextView(this);
-            contact_item_nomor_telp.setText("Nomor : " + contact.getNomorTelp());
-            contact_item_nomor_telp.setTextColor(getResources().getColor(R.color.white));
-
-            contact_item.addView(contact_item_nama);
-            contact_item.addView(contact_item_nomor_telp);
-
-            contact_item.setOnClickListener(view -> {
-                Intent intent = new Intent(getBaseContext(), DetailContact.class);
-                intent.putExtra("id", contact.getId());
-                startActivity(intent);
-            });
-
-            scroll_contact_linear.addView(contact_item);
-        }
+        ListView list_view = findViewById(R.id.contact_list_view);
+        list_view.setAdapter(contact_adapter);
     }
 
 
@@ -91,8 +67,6 @@ public class MainActivity extends AppCompatActivity {
         edt_nama = findViewById(R.id.edt_nama);
         edt_nomor_telp = findViewById(R.id.edt_nomor_telp);
         edt_cari_kontak = findViewById(R.id.edt_cari_kontak);
-
-        scroll_contact_linear = findViewById(R.id.scroll_contact_linear);
 
         btn_simpan = findViewById(R.id.btn_simpan);
         btn_simpan.setOnClickListener(view -> {
