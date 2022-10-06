@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.ppbcontact.model.Contact;
@@ -31,7 +32,7 @@ public class ContactRepository {
         };
 
         database = openDb.getWritableDatabase();
-        database.execSQL("create table if not exists contact (id integer primary key autoincrement, nama varchar(255) not null unique, nomor_telp varchar(255) not null )");
+        database.execSQL("create table if not exists contact (id integer primary key autoincrement, nama varchar(255) not null, nomor_telp varchar(255) not null, unique(nama, nomor_telp))");
     }
 
     public static ContactRepository getInstance(Context context) {
@@ -66,7 +67,7 @@ public class ContactRepository {
     }
 
     public Contact get(int id) {
-        Cursor cursor = database.rawQuery("SELECT * FROM contact where id = " + id + ";", null);
+        Cursor cursor = buildCursor("where id = " + id);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -76,35 +77,35 @@ public class ContactRepository {
         return null;
     }
 
-    public ArrayList<Contact> searchByName(String name) {
-        Cursor cursor = database.rawQuery("SELECT * FROM contact where nama like '%" + name + "%' order by nama", null);
+    public ArrayList<Contact> searchContact(String search_string) {
+        Cursor cursor = buildCursor("where nama like '%" + search_string + "%' or nomor_telp like '%" + search_string + "%'");
 
+        return buildContactsFromCursor(cursor);
+    }
+
+    @NonNull
+    private ArrayList<Contact> buildContactsFromCursor(Cursor cursor) {
         ArrayList<Contact> result = new ArrayList<>();
 
         if (cursor.moveToFirst()) {
             do {
-                // on below line we are adding the data from cursor to our array list.
                 result.add(new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2)));
             } while (cursor.moveToNext());
-            // moving our cursor to next.
         }
-
         return result;
     }
 
     public ArrayList<Contact> getAll() {
-        Cursor cursor = database.rawQuery("SELECT * FROM contact order by nama", null);
+        Cursor cursor = buildCursor();
 
-        ArrayList<Contact> result = new ArrayList<>();
+        return buildContactsFromCursor(cursor);
+    }
 
-        if (cursor.moveToFirst()) {
-            do {
-                // on below line we are adding the data from cursor to our array list.
-                result.add(new Contact(Integer.parseInt(cursor.getString(0)), cursor.getString(1), cursor.getString(2)));
-            } while (cursor.moveToNext());
-            // moving our cursor to next.
-        }
+    private Cursor buildCursor() {
+        return buildCursor("");
+    }
 
-        return result;
+    private Cursor buildCursor(String where) {
+        return database.rawQuery("SELECT * FROM contact " + where + " order by nama", null);
     }
 }
