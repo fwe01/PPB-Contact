@@ -67,7 +67,7 @@ public class ContactRepository {
     }
 
     public Contact get(int id) {
-        Cursor cursor = buildCursor("where id = " + id);
+        Cursor cursor = buildCursor("id = " + id);
 
         if (cursor.getCount() > 0) {
             cursor.moveToFirst();
@@ -78,7 +78,7 @@ public class ContactRepository {
     }
 
     public ArrayList<Contact> searchContact(String search_string) {
-        Cursor cursor = buildCursor("where nama like '%" + search_string + "%' or nomor_telp like '%" + search_string + "%'");
+        Cursor cursor = buildCursor("nama like '%" + search_string + "%' or nomor_telp like '%" + search_string + "%'");
 
         return buildContactsFromCursor(cursor);
     }
@@ -106,6 +106,11 @@ public class ContactRepository {
     }
 
     private Cursor buildCursor(String where) {
-        return database.rawQuery("SELECT * FROM contact " + where + " order by nama", null);
+        String query = "";
+        if (where.length() > 0){
+            query = "where " + where;
+        }
+
+        return database.rawQuery("SELECT * FROM contact " + query + " order by nama", null);
     }
 }
